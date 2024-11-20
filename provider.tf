@@ -38,3 +38,12 @@ resource "google_compute_project_metadata" "default" {
     ssh-keys = local.ssh_metadata
   }
 }
+
+# Enable APIs
+resource "google_project_service" "logging_api" {
+  service = "logging.googleapis.com"
+}
+
+resource "google_project_service" "monitoring_api" {
+  service = "monitoring.googleapis.com"
+}

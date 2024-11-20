@@ -37,6 +37,22 @@ resource "google_compute_subnetwork" "management_subnet" {
   network       = google_compute_network.management_vpc.id
 }
 
+resource "google_compute_global_address" "private_service_access" {
+  name          = "private-service-access"
+  purpose       = "VPC_PEERING"
+  address_type  = "INTERNAL"
+  prefix_length = 16
+  network       = google_compute_network.management_vpc.self_link
+}
+
+resource "google_service_networking_connection" "private_service_connection" {
+  network                 = google_compute_network.management_vpc.id
+  service                 = "servicenetworking.googleapis.com"
+  reserved_peering_ranges = [google_compute_global_address.private_service_access.name]
+}
+
+
+
 # Red DMZ
 resource "google_compute_network" "dmz_vpc" {
   name                    = "dmz-vpc"
