@@ -23,7 +23,7 @@ cloud auth application-default login
 
 ### Crear ssh-key
 ```bash
-ssh-keygen -t rsa -f ./id_rsa -C "proyecto"
+ssh-keygen -t rsa -b 4096 -f ./id_rsa -C "proyecto"
 ```
 
 ### Crear variables de entorno
@@ -48,3 +48,8 @@ terraform destroy
 ```
 
 
+
+
+
+
+id=projects/security-standards-group-4/zon...-c/instances/internal-replica-instance,
