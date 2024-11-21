@@ -11,6 +11,32 @@ resource "google_compute_firewall" "dmz_allow_http_https" {
   source_ranges = ["0.0.0.0/0"]
 }
 
+# Reglas de firewall para la red interna main
+resource "google_compute_firewall" "internal_main_allow_http_https" {
+  name    = "internal-main-allow-http-https"
+  network = google_compute_network.internal_main_vpc.id
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80", "443"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+}
+
+# Reglas de firewall para la red interna replica
+resource "google_compute_firewall" "internal_replica_allow_http_https" {
+  name    = "internal-replica-allow-http-https"
+  network = google_compute_network.internal_replica_vpc.id
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80", "443"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+}
+
 # Regla de firewall para la red de administración
 resource "google_compute_firewall" "management_allow_ssh" {
   name    = "management-allow-ssh"
