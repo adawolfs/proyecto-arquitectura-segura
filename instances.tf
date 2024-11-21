@@ -25,7 +25,7 @@ resource "google_compute_instance" "internal_main_instance" {
     subnetwork = google_compute_subnetwork.internal_main_subnet.id
   }
 
-  tags = ["allow-from-lb"]
+  tags = ["allow-from-lb", "allow-health-checks"]
 }
 
 # Instancia en la Red Interna Réplica
@@ -55,7 +55,7 @@ resource "google_compute_instance" "internal_replica_instance" {
     subnetwork = google_compute_subnetwork.internal_replica_subnet.id
   }
 
-  tags = ["allow-from-lb"]
+  tags = ["allow-from-lb", "allow-health-checks"]
 }
 
 # Instancia en la Red de Administración

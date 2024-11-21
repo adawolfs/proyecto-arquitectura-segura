@@ -24,6 +24,43 @@ resource "google_compute_firewall" "internal_main_allow_http_https" {
   source_ranges = ["0.0.0.0/0"]
 }
 
+
+resource "google_compute_firewall" "internal_main_allow_egress_http_https" {
+  name    = "internal-main-allow-egress-http-https"
+  network = google_compute_network.internal_main_vpc.id
+  direction = "EGRESS"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["0-65535"]
+  }
+
+  allow {
+    protocol = "udp"
+    ports    = ["0-65535"]
+  }
+
+  allow {
+    protocol = "icmp"
+  }
+
+  destination_ranges = ["0.0.0.0/0"]
+}
+
+resource "google_compute_firewall" "allow_health_checks" {
+  name    = "allow-health-checks"
+  network = google_compute_network.management_vpc.name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
+  }
+
+  source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]  # Health check ranges
+  target_tags   = ["allow-health-checks"]
+}
+
+
 # Reglas de firewall para la red interna replica
 resource "google_compute_firewall" "internal_replica_allow_http_https" {
   name    = "internal-replica-allow-http-https"
@@ -35,6 +72,28 @@ resource "google_compute_firewall" "internal_replica_allow_http_https" {
   }
 
   source_ranges = ["0.0.0.0/0"]
+}
+
+resource "google_compute_firewall" "internal_replica_allow_egress_http_https" {
+  name    = "internal-replica-allow-egress-http-https"
+  network = google_compute_network.internal_replica_vpc.id
+  direction = "EGRESS"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["0-65535"]
+  }
+
+  allow {
+    protocol = "udp"
+    ports    = ["0-65535"]
+  }
+
+  allow {
+    protocol = "icmp"
+  }
+
+  destination_ranges = ["0.0.0.0/0"]
 }
 
 # Regla de firewall para la red de administración

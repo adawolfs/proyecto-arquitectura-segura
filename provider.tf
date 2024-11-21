@@ -47,3 +47,7 @@ resource "google_project_service" "logging_api" {
 resource "google_project_service" "monitoring_api" {
   service = "monitoring.googleapis.com"
 }
+
+resource "google_project_service" "compute_api" {
+  service = "compute.googleapis.com"
+}
