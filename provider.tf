@@ -3,6 +3,7 @@
 variable "project_name" {
   default = "security-standards-group-4"
 }
+
 variable "region" {
   default = "us-west1"
 }
@@ -20,8 +21,15 @@ variable "ssh_public_key_file" {
   default = "./id_rsa.pub"
 }
 
+variable "ssh_private_key_file" {
+  default = "./id_rsa"
+}
+
+
+
 locals {
   ssh_public_key = file(var.ssh_public_key_file)
+  ssh_private_key = file(var.ssh_private_key_file)
   ssh_metadata   = "${var.ssh_username}:${local.ssh_public_key}"
 }
 
@@ -50,4 +58,9 @@ resource "google_project_service" "monitoring_api" {
 
 resource "google_project_service" "compute_api" {
   service = "compute.googleapis.com"
+}
+
+# Enable Cloud Kubernetes Engine API
+resource "google_project_service" "container_api" {
+  service = "container.googleapis.com"
 }
